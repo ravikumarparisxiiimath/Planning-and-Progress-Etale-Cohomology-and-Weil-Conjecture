@@ -1,0 +1,620 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weil Conjectures — Research Blueprint</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #f7f4ef;
+  --surface:   #ffffff;
+  --border:    #ddd8d0;
+  --border2:   #ccc7be;
+  --text:      #2a2520;
+  --dim:       #7a7268;
+  --dim2:      #b0a99f;
+  --gold:      #9a6e28;
+  --gold-soft: #e8d9bc;
+  --green:     #3a7a52;
+  --green-dim: #d4ede0;
+  --red:       #8a4040;
+  --accent:    #5a4a78;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  font-size: 17px;
+  font-weight: 500;
+  min-height: 100vh;
+  padding: 48px 24px 80px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+/* ——— HEADER ——— */
+.masthead {
+  margin-bottom: 52px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border2);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 20px;
+}
+
+.masthead-left {}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  display: block;
+}
+
+.masthead h1 {
+  font-size: 30px;
+  font-weight: 600;
+  color: #2a2520;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+}
+
+.masthead .subline {
+  margin-top: 6px;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--dim);
+}
+
+.masthead-right {
+  text-align: right;
+}
+
+.north-star {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 6px;
+}
+
+.ns-text {
+  font-size: 15px;
+  color: var(--dim);
+  font-style: italic;
+  max-width: 200px;
+  line-height: 1.5;
+}
+
+/* ——— OVERALL PROGRESS ——— */
+.progress-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 18px 24px;
+  margin-bottom: 42px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.progress-label {
+  font-size: 13px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.bar-wrap {
+  flex: 1;
+  height: 1px;
+  background: var(--border2);
+  position: relative;
+}
+
+.bar-fill {
+  position: absolute;
+  left: 0; top: 0;
+  height: 100%;
+  background: var(--gold);
+  transition: width 0.5s ease;
+}
+
+.progress-count {
+  font-size: 15px;
+  color: var(--gold);
+  font-family: 'Courier New', monospace;
+  white-space: nowrap;
+}
+
+/* ——— MILESTONE ——— */
+.milestone {
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color 0.3s;
+}
+
+.milestone.complete {
+  border-color: var(--green-dim);
+}
+
+.milestone-head {
+  padding: 20px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.milestone-head:hover {
+  background: rgba(0,0,0,0.02);
+}
+
+.m-num {
+  font-size: 13px;
+  font-family: 'Courier New', monospace;
+  color: var(--gold);
+  letter-spacing: 1px;
+  padding-top: 4px;
+  min-width: 28px;
+}
+
+.m-title-block { flex: 1; }
+
+.m-floor {
+  font-size: 12px;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 5px;
+}
+
+.m-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #2a2520;
+  line-height: 1.3;
+}
+
+.m-minibar {
+  margin-top: 9px;
+  width: 72px;
+  height: 1px;
+  background: var(--border2);
+}
+
+.m-minibar-fill {
+  height: 100%;
+  background: var(--gold);
+  transition: width 0.4s ease;
+}
+
+.milestone.complete .m-minibar-fill { background: var(--green); }
+
+.m-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.m-count {
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+  color: var(--dim);
+}
+
+.chevron {
+  font-size: 13px;
+  color: var(--dim);
+  transition: transform 0.22s ease;
+}
+
+.milestone.open .chevron { transform: rotate(90deg); }
+
+/* ——— BODY ——— */
+.milestone-body {
+  display: none;
+  border-top: 1px solid var(--border);
+  padding: 0 24px 24px;
+}
+
+.milestone.open .milestone-body { display: block; }
+
+.insight {
+  padding: 18px 0 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 4px;
+}
+
+.insight-tag {
+  display: block;
+  font-size: 12px;
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 9px;
+}
+
+.insight-text {
+  font-style: italic;
+  font-size: 16px;
+  color: var(--dim);
+  line-height: 1.78;
+}
+
+/* ——— ITEMS ——— */
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.item:last-child { border-bottom: none; }
+
+.item:hover {
+  background: rgba(0,0,0,0.025);
+  margin: 0 -24px;
+  padding: 11px 24px;
+}
+
+.item-box {
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--dim2);
+  flex-shrink: 0;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.item.done .item-box {
+  border-color: var(--green);
+  background: var(--green-dim);
+}
+
+.item.done .item-box::after {
+  content: '✓';
+  font-size: 11px;
+  color: var(--green);
+  line-height: 1;
+}
+
+.item-text {
+  font-size: 15.5px;
+  line-height: 1.75;
+  color: var(--text);
+  flex: 1;
+  transition: color 0.2s;
+}
+
+.item.done .item-text {
+  color: var(--dim2);
+  text-decoration: line-through;
+  text-decoration-color: var(--green-dim);
+  text-decoration-thickness: 1px;
+}
+
+/* KaTeX */
+.katex { font-size: 0.97em; }
+.katex-display { margin: 0; }
+
+/* ——— LADDER MAP ——— */
+.ladder {
+  margin-top: 48px;
+  border-top: 1px solid var(--border2);
+  padding-top: 28px;
+}
+
+.ladder-label {
+  font-size: 9.5px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 16px;
+}
+
+.ladder-floors {
+  display: flex;
+  gap: 0;
+}
+
+.floor-cell {
+  flex: 1;
+  border: 1px solid var(--border);
+  padding: 12px 14px;
+  margin-right: -1px;
+}
+
+.floor-cell:last-child { margin-right: 0; }
+
+.floor-num {
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--gold);
+  font-family: 'Courier New', monospace;
+  margin-bottom: 5px;
+}
+
+.floor-name {
+  font-size: 14px;
+  color: var(--dim);
+  line-height: 1.4;
+}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="masthead-left">
+    <span class="eyebrow">Research Blueprint — [R12]</span>
+    <h1>The Weil Conjectures<br>&amp; Étale Cohomology</h1>
+    <div class="subline">A structured path from point-counting to Deligne's theorem</div>
+  </div>
+  <div class="masthead-right">
+    <div class="north-star">North Star</div>
+    <div class="ns-text">Full proof of all four Weil conjectures via étale cohomology</div>
+  </div>
+</div>
+
+<div class="progress-block">
+  <span class="progress-label">Overall</span>
+  <div class="bar-wrap">
+    <div class="bar-fill" id="overall-fill" style="width:0%"></div>
+  </div>
+  <span class="progress-count" id="overall-count">0 / 0</span>
+</div>
+
+<div id="blueprint"></div>
+
+<div class="ladder">
+  <div class="ladder-label">Micro-Lemma Ladder</div>
+  <div class="ladder-floors">
+    <div class="floor-cell">
+      <div class="floor-num">F0</div>
+      <div class="floor-name">Čech cohomology, line bundles on ℙⁿ</div>
+    </div>
+    <div class="floor-cell">
+      <div class="floor-num">F1</div>
+      <div class="floor-name">Base change, proper maps</div>
+    </div>
+    <div class="floor-cell">
+      <div class="floor-num">F2</div>
+      <div class="floor-name">Cohomology counts, zeta functions</div>
+    </div>
+    <div class="floor-cell">
+      <div class="floor-num">F3</div>
+      <div class="floor-name">Étale cohomology, trace formula</div>
+    </div>
+    <div class="floor-cell">
+      <div class="floor-num">∞</div>
+      <div class="floor-name">Deligne — Weil II</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+const milestones = [
+  {
+    id: 'M0', num: '00',
+    title: 'The Conjectures',
+    floor: 'Pre-Ladder — Foundations',
+    insight: 'The zeta function $Z(X,T)$ packages all point-counts $|X(\\mathbb{F}_{q^n})|$ into a single generating function. The four Weil conjectures assert it is rational, satisfies a precise functional equation, has its non-trivial roots on a specific critical line, and its Betti numbers match those of any complex lift. Each conjecture is a statement about finite-field combinatorics that secretly encodes the geometry of $X$ over $\\mathbb{C}$.',
+    items: [
+      { id:'M0-1', t:'Prove $Z(\\mathbb{P}^n_{\\mathbb{F}_q}, T) = [(1-T)(1-qT)\\cdots(1-q^nT)]^{-1}$ from scratch using $\\mathbb{P}^n = \\mathbb{A}^n \\sqcup \\mathbb{P}^{n-1}$ and multiplicativity' },
+      { id:'M0-2', t:'State all four Weil conjectures precisely with correct hypotheses (smooth, projective, geometrically irreducible)' },
+      { id:'M0-3', t:'Compute $Z(E, T)$ for an elliptic curve; identify $a_p = p + 1 - |E(\\mathbb{F}_p)|$ and prove the Hasse bound $|a_p| \\leq 2\\sqrt{p}$' },
+      { id:'M0-4', t:'Show: Riemann Hypothesis $\\Longleftrightarrow$ every eigenvalue $\\alpha_i$ of Frobenius on $H^i$ satisfies $|\\alpha_i| = q^{i/2}$' },
+      { id:'M0-5', t:'Demonstrate concretely why the Zariski topology fails: the map $x \\mapsto x^p$ is a homeomorphism on $\\mathbb{A}^1_{\\mathbb{F}_p}$, so every open cover is trivial' },
+    ]
+  },
+  {
+    id: 'M1', num: '01',
+    title: 'Cohomology Formally Implies the Conjectures',
+    floor: 'Floors 3–4 — The Formal Engine',
+    insight: 'A contravariant functor $H^\\bullet$ satisfying four axioms — Künneth, Poincaré duality, cycle class map, and trace — forces rationality and the functional equation via pure linear algebra. This is the "free lunch": three of four Weil conjectures follow formally from existence of such a theory. The Riemann Hypothesis does not — and that gap is the entire content of Deligne\'s work.',
+    items: [
+      { id:'M1-1', t:'State the Weil cohomology axioms in full: dimension bounds, Künneth isomorphism, Poincaré duality, cycle class $\\gamma: Z^r(X) \\to H^{2r}(X)$, trace $\\int_X: H^{2d}(X) \\xrightarrow{\\sim} K$' },
+      { id:'M1-2', t:'Prove: Lefschetz trace formula gives $|X(\\mathbb{F}_{q^n})| = \\sum_{i} (-1)^i \\operatorname{tr}(F^{*n} \\mid H^i(X))$ from the diagonal correspondence' },
+      { id:'M1-3', t:'Derive $Z(X,T) = \\prod_{i=0}^{2d} \\det(1 - T \\cdot F^* \\mid H^i(X))^{(-1)^{i+1}}$, hence $Z(X,T) \\in \\mathbb{Q}(T)$' },
+      { id:'M1-4', t:'Prove: Poincaré duality pairs eigenvalues of $F^*$ on $H^j$ and $H^{2d-j}$ by $q^d$, which implies the functional equation for $Z(X,T)$' },
+      { id:'M1-5', t:'Identify precisely the step where the formal argument breaks down for the Riemann Hypothesis: why "absolute value" is not a cohomological invariant' },
+      { id:'M1-6', t:'Explain why the coefficient field must be $K = \\mathbb{Q}_\\ell$ ($\\ell \\neq p$): why $\\mathbb{Q}$, $\\mathbb{Q}_p$, and $\\mathbb{R}$ each fail for distinct structural reasons' },
+    ]
+  },
+  {
+    id: 'M2', num: '02',
+    title: 'The Étale Topology',
+    floor: 'Floors 1–2 — The New Topology',
+    insight: 'An étale morphism is the algebraic analogue of a local diffeomorphism: smooth of relative dimension zero. The étale topology replaces open subsets with étale covers and produces a Grothendieck topos where the implicit function theorem is valid and Galois theory is encoded directly in the topology. The geometric points of a scheme serve as the "actual points" in this world.',
+    items: [
+      { id:'M2-1', t:'Define in sequence: formally unramified ($\\Omega^1_{X/Y} = 0$), formally smooth (lifting against nilpotent thickenings), formally étale, and étale' },
+      { id:'M2-2', t:'Classify étale morphisms in the standard examples: open immersions, finite separable field extensions, $\\operatorname{Spec} A[T]/(f,\\, f\') \\to \\operatorname{Spec} A$ for $f$ separable' },
+      { id:'M2-3', t:'Define a Grothendieck topology on a category $\\mathcal{C}$ via covering sieves; define a site $(\\mathcal{C}, \\tau)$; define a sheaf of abelian groups on a site' },
+      { id:'M2-4', t:'Define the small étale site $X_{\\acute{e}t}$; describe its objects (étale $U \\to X$), coverings, and the sheaf condition explicitly' },
+      { id:'M2-5', t:'Compute: $H^0_{\\acute{e}t}(\\operatorname{Spec} k,\\, \\mathbb{G}_m) = k^*$ and $\\check{H}^1_{\\acute{e}t}(\\operatorname{Spec} k,\\, \\mathbb{G}_m) = 0$ from the definition' },
+      { id:'M2-6', t:'Prove: $H^i_{\\acute{e}t}(\\operatorname{Spec} k,\\, \\mathcal{F}) \\cong H^i(\\operatorname{Gal}(k^s/k),\\, \\mathcal{F}_{\\bar{x}})$ — étale cohomology of a point is Galois cohomology' },
+      { id:'M2-7', t:'Understand stalks: for $\\mathcal{F}$ on $X_{\\acute{e}t}$, its stalk at a geometric point $\\bar{x}: \\operatorname{Spec}\\bar{k} \\to X$ is $\\mathcal{F}_{\\bar{x}} = \\varinjlim_{(U, \\bar{u})} \\mathcal{F}(U)$; prove it is an exact functor' },
+    ]
+  },
+  {
+    id: 'M3', num: '03',
+    title: 'The Cohomology Machinery',
+    floor: 'Floors 2–4 — The Toolkit',
+    insight: 'The comparison theorem $H^i_{\\acute{e}t}(X_{\\mathbb{C}},\\, \\mathbb{Z}/n) \\cong H^i_{\\mathrm{sing}}(X(\\mathbb{C}),\\, \\mathbb{Z}/n)$ certifies the construction is correct in characteristic zero. Passing to the inverse limit over $\\ell^\\nu$ and tensoring with $\\mathbb{Q}_\\ell$ yields $\\ell$-adic cohomology — a Weil cohomology with the right Betti numbers. Proper base change is the technical spine: it is why the theory behaves well over non-algebraically closed fields and why the Frobenius can act on the cohomology of the geometric fiber.',
+    items: [
+      { id:'M3-1', t:'Construct derived functor cohomology $H^i(X_{\\acute{e}t}, -)$ via injective resolutions in $\\mathrm{Ab}(X_{\\acute{e}t})$; show it agrees with Čech cohomology for "nice" covers' },
+      { id:'M3-2', t:'State the comparison theorem: $H^i_{\\acute{e}t}(X_{\\mathbb{C}},\\, \\mathbb{Z}/n) \\cong H^i_{\\mathrm{sing}}(X(\\mathbb{C}),\\, \\mathbb{Z}/n)$ for smooth $X/\\mathbb{C}$; understand the key steps of the proof' },
+      { id:'M3-3', t:'Define $\\ell$-adic cohomology: $H^i(X_{\\bar{k}},\\, \\mathbb{Q}_\\ell) := \\bigl(\\varprojlim_{\\nu} H^i(X_{\\bar{k}},\\, \\mathbb{Z}/\\ell^\\nu)\\bigr) \\otimes_{\\mathbb{Z}_\\ell} \\mathbb{Q}_\\ell$; verify finite-dimensionality' },
+      { id:'M3-4', t:'State proper base change: for $f: X \\to Y$ proper and $\\mathcal{F}$ torsion, $(R^i f_* \\mathcal{F})_{\\bar{y}} \\cong H^i(X_{\\bar{y}},\\, \\mathcal{F}|_{X_{\\bar{y}}})$; identify exactly where properness enters the proof' },
+      { id:'M3-5', t:'State smooth base change; compute an explicit non-trivial example: the local system $R^1 \\pi_* (\\mathbb{Z}/\\ell)$ for an elliptic fibration $\\pi: \\mathcal{E} \\to S$ and identify its monodromy' },
+      { id:'M3-6', t:'State Künneth: $H^*(X \\times_k Y,\\, \\mathbb{Q}_\\ell) \\cong H^*(X,\\, \\mathbb{Q}_\\ell) \\otimes_{\\mathbb{Q}_\\ell} H^*(Y,\\, \\mathbb{Q}_\\ell)$; verify on $\\mathbb{P}^1 \\times \\mathbb{P}^1$' },
+      { id:'M3-7', t:'State Poincaré duality: for smooth proper $X/k$ of dimension $d$, the pairing $H^i(X,\\, \\mathbb{Q}_\\ell) \\times H^{2d-i}(X,\\, \\mathbb{Q}_\\ell(d)) \\to \\mathbb{Q}_\\ell$ is a perfect duality' },
+    ]
+  },
+  {
+    id: 'M4', num: '04',
+    title: 'Frobenius and the Lefschetz Trace Formula',
+    floor: 'Floors 3–4 — Counting with Cohomology',
+    insight: 'The geometric Frobenius $\\varphi_X: X \\to X$ (raising coordinates to the $q$-th power) is the algebraic avatar of the deck transformation of an unramified covering. The Lefschetz fixed-point theorem, applied to $\\varphi_X^n$, identifies $|X(\\mathbb{F}_{q^n})|$ with an alternating sum of traces of $\\varphi^{*n}$ on $H^i_c$. The zeta function is then a ratio of characteristic polynomials — rational, functional equation satisfied, but eigenvalue sizes utterly uncontrolled.',
+    items: [
+      { id:'M4-1', t:'Distinguish carefully: geometric Frobenius $\\varphi: x \\mapsto x^q$ vs. arithmetic Frobenius $x \\mapsto x^{1/q}$; trace through their induced actions on $H^i_{\\acute{e}t}(\\bar{X},\\, \\mathbb{Q}_\\ell)$' },
+      { id:'M4-2', t:'State and prove the Lefschetz trace formula for $\\ell$-adic cohomology: $|X(\\mathbb{F}_{q^n})| = \\sum_i (-1)^i \\operatorname{tr}(\\varphi^{*n} \\mid H^i_c(\\bar{X},\\, \\mathbb{Q}_\\ell))$' },
+      { id:'M4-3', t:'Derive $Z(X, T) = \\prod_{i=0}^{2d} \\det(1 - T \\cdot \\varphi^* \\mid H^i_c(\\bar{X},\\, \\mathbb{Q}_\\ell))^{(-1)^{i+1}}$ and reconcile with Milestone 01' },
+      { id:'M4-4', t:'Verify explicitly for $X = \\mathbb{P}^1_{\\mathbb{F}_q}$: compute eigenvalues of $\\varphi^*$ on each $H^i_{\\acute{e}t}$, recover $Z(\\mathbb{P}^1, T)$, and check the Weil conjectures term-by-term' },
+      { id:'M4-5', t:'Understand: independence of $\\ell$ — that $\\det(1 - T\\varphi^* \\mid H^i_c(\\bar{X},\\, \\mathbb{Q}_\\ell)) \\in \\mathbb{Z}[T]$ independent of $\\ell \\neq p$ — is a non-trivial consequence of purity (the Riemann Hypothesis), not a formal fact' },
+    ]
+  },
+  {
+    id: 'M5', num: '05',
+    title: "Deligne's Theorem — The Riemann Hypothesis",
+    floor: 'Floor 4 — The Summit',
+    insight: 'Deligne does not establish purity by a direct estimate. He bootstraps from a base case: purity of $H^1$ of a smooth projective curve, accessible via the Weil pairing on the $\\ell$-adic Tate module of its Jacobian. Lefschetz pencils then realise any smooth projective variety as a fibration over $\\mathbb{P}^1$ with controlled singular fibers. Hard Lefschetz combined with the monodromy representation allows the weight estimate to propagate by induction on dimension. The Riemann Hypothesis becomes structurally inevitable.',
+    items: [
+      { id:'M5-1', t:'Define: a constructible $\\mathbb{Q}_\\ell$-sheaf $\\mathcal{F}$ on $X/\\mathbb{F}_q$ is pure of weight $w$ if for every closed point $x$, eigenvalues $\\alpha$ of $\\mathrm{Fr}_x$ on $\\mathcal{F}_{\\bar{x}}$ satisfy $|\\alpha|_{\\mathbb{C}} = (\\#\\kappa(x))^{w/2}$' },
+      { id:'M5-2', t:'Prove the base case: purity of $H^1(C,\\, \\mathbb{Q}_\\ell)$ for a smooth projective curve $C/\\mathbb{F}_q$, using the Weil pairing $H^1 \\times H^1 \\to \\mathbb{Q}_\\ell(-1)$ on $T_\\ell(J_C)$' },
+      { id:'M5-3', t:'State hard Lefschetz: for smooth projective $X$ of dimension $d$ with hyperplane class $L \\in H^2$, the map $L^{d-i}: H^i(X,\\, \\mathbb{Q}_\\ell) \\xrightarrow{\\,\\sim\\,} H^{2d-i}(X,\\, \\mathbb{Q}_\\ell(d-i))$ is an isomorphism for $i \\leq d$' },
+      { id:'M5-4', t:'Define a Lefschetz pencil on $X \\subset \\mathbb{P}^N$: the axis $A = \\bigcap_t H_t$, the blow-up $\\tilde{X} \\xrightarrow{\\pi} \\mathbb{P}^1$, the finite singular set $S \\subset \\mathbb{P}^1$, and the vanishing cycles $\\delta_s$ for $s \\in S$' },
+      { id:'M5-5', t:'Understand the local system $\\mathcal{H} = R^{d-1}\\pi_*(\\mathbb{Q}_\\ell)|_{\\mathbb{P}^1 \\setminus S}$ and the monodromy representation $\\rho: \\pi_1(\\mathbb{P}^1 \\setminus S,\\, t_0) \\to GL(H^{d-1}(X_{t_0},\\, \\mathbb{Q}_\\ell))$; identify the local monodromy at each $s \\in S$ as a reflection' },
+      { id:'M5-6', t:'Understand Deligne\'s key estimate: tensorising $\\mathcal{H}$ with its dual $\\mathcal{H}^\\vee$ reduces bounding weights on $H^{d-1}$ to bounding weights on $H^1$ of an auxiliary curve — the "Rankin squaring" step' },
+      { id:'M5-7', t:'State Weil II (Deligne 1980): if $f: X \\to Y$ is a morphism of $\\mathbb{F}_q$-schemes and $\\mathcal{F}$ is a pure sheaf of weight $w$, then $R^i f_! \\mathcal{F}$ is mixed of weights $\\leq w + i$; and $H^i_c(\\bar{X},\\, \\mathcal{F})$ is pure of weight $w + i$' },
+      { id:'M5-8', t:'Trace the complete logical chain: Weil II $\\Rightarrow$ eigenvalues of $\\mathrm{Fr}$ on $H^i_c(\\bar{X},\\, \\mathbb{Q}_\\ell)$ have absolute value $q^{i/2}$ $\\Rightarrow$ Riemann Hypothesis for smooth projective varieties over $\\mathbb{F}_q$' },
+    ]
+  },
+];
+
+// ─── STATE ────────────────────────────────────────────────────────────────
+let checked = {};
+
+async function loadState() {
+  try {
+    const raw = localStorage.getItem('weil-blueprint-v2');
+    if (raw) checked = JSON.parse(raw);
+  } catch(e) { checked = {}; }
+}
+
+async function save() {
+  try { localStorage.setItem('weil-blueprint-v2', JSON.stringify(checked)); } catch(e){}
+}
+
+// ─── MATH RENDERING ───────────────────────────────────────────────────────
+function kt(str) {
+  try { return katex.renderToString(str, { throwOnError: false }); }
+  catch(e) { return str; }
+}
+
+function renderText(str) {
+  // replace $...$ (non-greedy) with rendered katex
+  return str.replace(/\$([^$]+?)\$/g, (_, m) => kt(m));
+}
+
+// ─── PROGRESS ─────────────────────────────────────────────────────────────
+function totals() {
+  let t=0, d=0;
+  milestones.forEach(m => m.items.forEach(i => { t++; if(checked[i.id]) d++; }));
+  return {t,d};
+}
+function mTotals(m) {
+  return { t: m.items.length, d: m.items.filter(i => checked[i.id]).length };
+}
+
+function updateUI() {
+  const {t,d} = totals();
+  const pct = t > 0 ? (d/t*100) : 0;
+  document.getElementById('overall-fill').style.width = pct + '%';
+  document.getElementById('overall-count').textContent = d + ' / ' + t;
+  milestones.forEach(m => {
+    const {t:mt, d:md} = mTotals(m);
+    const el = document.getElementById('ms-' + m.id);
+    const fill = document.getElementById('mf-' + m.id);
+    const cnt  = document.getElementById('mc-' + m.id);
+    if (fill) fill.style.width = (mt > 0 ? md/mt*100 : 0) + '%';
+    if (cnt)  cnt.textContent  = md + '/' + mt;
+    if (el) {
+      md === mt && mt > 0 ? el.classList.add('complete') : el.classList.remove('complete');
+    }
+  });
+}
+
+// ─── INTERACTIONS ─────────────────────────────────────────────────────────
+function toggleItem(id) {
+  checked[id] = !checked[id];
+  const el = document.getElementById('item-' + id);
+  if (el) checked[id] ? el.classList.add('done') : el.classList.remove('done');
+  updateUI();
+  save();
+}
+
+function toggleMilestone(id) {
+  const el = document.getElementById('ms-' + id);
+  if (el) el.classList.toggle('open');
+}
+
+// ─── RENDER ───────────────────────────────────────────────────────────────
+function render() {
+  document.getElementById('blueprint').innerHTML = milestones.map(m => {
+    const {t,d} = mTotals(m);
+    return `
+      <div class="milestone" id="ms-${m.id}">
+        <div class="milestone-head" onclick="toggleMilestone('${m.id}')">
+          <div class="m-num">${m.num}</div>
+          <div class="m-title-block">
+            <div class="m-floor">${m.floor}</div>
+            <div class="m-title">${m.title}</div>
+            <div class="m-minibar">
+              <div class="m-minibar-fill" id="mf-${m.id}" style="width:${t>0?d/t*100:0}%"></div>
+            </div>
+          </div>
+          <div class="m-meta">
+            <span class="m-count" id="mc-${m.id}">${d}/${t}</span>
+            <span class="chevron">▶</span>
+          </div>
+        </div>
+        <div class="milestone-body">
+          <div class="insight">
+            <span class="insight-tag">Key Structural Insight</span>
+            <div class="insight-text">${renderText(m.insight)}</div>
+          </div>
+          ${m.items.map(item => `
+            <div class="item ${checked[item.id]?'done':''}" id="item-${item.id}" onclick="toggleItem('${item.id}')">
+              <div class="item-box"></div>
+              <div class="item-text">${renderText(item.t)}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────
+(async () => {
+  await loadState();
+  render();
+  updateUI();
+  // open M0 by default
+  document.getElementById('ms-M0')?.classList.add('open');
+})();
+</script>
+</body>
+</html>
